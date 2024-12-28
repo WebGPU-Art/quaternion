@@ -215,6 +215,14 @@ pub fn Quaternion::from_array(arr : Array[Float]) -> Quaternion!QuatError {
   Quaternion::{ w: arr[0], x: arr[1], y: arr[2], z: arr[3] }
 }
 
+///| from_xyzw_array
+pub fn Quaternion::from_xyzw_array(arr : Array[Float]) -> Quaternion!QuatError {
+  if arr.length() != 4 {
+    raise QuatError("Array must have 4 elements")
+  }
+  Quaternion::{ w: arr[3], x: arr[0], y: arr[1], z: arr[2] }
+}
+
 ///| Construct a quaternion representing the given euler angle rotations (in radians)
 pub fn Quaternion::from_euler_angles(
   x : Float,
