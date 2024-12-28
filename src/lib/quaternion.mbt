@@ -1,44 +1,3 @@
-/// Using Float in this module, MoonBit does not support generics in Trait yet.
-///
-//! a simpler quaternion math library with traits.
-//!
-//! ```moonbit
-//! let a = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 };
-//! a.w;
-//!
-//! // quick creates
-//! let b1 = q(1.0, 2.0, 3.0, 4.0);
-//!
-//! // quick creates with integers
-//! let b2 = qi(1, 2, 3, 4);
-//!
-//! b1 + b2;
-//! b1 - b2;
-//! b1 * b2;
-//! b1 / b2;
-//! b1.conjugate();
-//! b1.scale(1.5);
-//! b1.square_length();
-//! b1.length();
-//! b1.inverse();
-//!```
-//!
-//! There are also mutable APIs:
-//!
-//! ```moonbit
-//! let mut c = Quaternion::id();
-//! let b = qi(1, 2, 3, 4);
-//!
-//! c += b;
-//! c -= b;
-//! c *= b;
-//! // no division
-//! c.inverse_mut();
-//! c.conjugate_mut();
-//! c.scale_mut(1.5);
-//! ```
-//!
-
 ///| Quaternion {w, x, y, z}
 pub(all) struct Quaternion {
   mut w : Float
@@ -233,6 +192,22 @@ pub fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///| negate number
 pub fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
   Quaternion::{ w: -self.w, x: -self.x, y: -self.y, z: -self.z }
+}
+
+///|
+pub fn Quaternion::to_array(self : Quaternion) -> Array[Float] {
+  [self.w, self.x, self.y, self.z]
+}
+
+///|
+pub(all) type! QuatError String
+
+///|
+pub fn Quaternion::from_array(arr : Array[Float]) -> Quaternion!QuatError {
+  if arr.length() != 4 {
+    raise QuatError("Array must have 4 elements")
+  }
+  Quaternion::{ w: arr[0], x: arr[1], y: arr[2], z: arr[3] }
 }
 
 ///| Construct a quaternion representing the given euler angle rotations (in radians)
