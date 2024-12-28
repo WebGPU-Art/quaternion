@@ -114,6 +114,15 @@ pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
   (self - other).square_length() < 1.0.to_float() / max_value
 }
 
+///|
+pub fn Quaternion::roughly_eq(
+  self : Quaternion,
+  other : Quaternion,
+  epsilon? : Float
+) -> Bool {
+  (self - other).square_length() < epsilon.or(0.00000000001)
+}
+
 ///| Adds two quaternions, returns a new one.
 pub fn Quaternion::op_add(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
@@ -223,26 +232,24 @@ pub fn Quaternion::from_xyzw_array(arr : Array[Float]) -> Quaternion!QuatError {
   Quaternion::{ w: arr[3], x: arr[0], y: arr[1], z: arr[2] }
 }
 
-///| Construct a quaternion representing the given euler angle rotations (in radians)
-pub fn Quaternion::from_euler_angles(
-  x : Float,
-  y : Float,
-  z : Float
-) -> Quaternion {
-  let two : Float = 2.0
-  let half_x = x / two
-  let half_y = y / two
-  let half_z = z / two
-  let cos_x_2 = @math.cos(half_x.to_double()).to_float()
-  let cos_y_2 = @math.cos(half_y.to_double()).to_float()
-  let cos_z_2 = @math.cos(half_z.to_double()).to_float()
-  let sin_x_2 = @math.sin(half_x.to_double()).to_float()
-  let sin_y_2 = @math.sin(half_y.to_double()).to_float()
-  let sin_z_2 = @math.sin(half_z.to_double()).to_float()
-  Quaternion::{
-    w: cos_x_2 * cos_y_2 * cos_z_2 + sin_x_2 * sin_y_2 * sin_z_2,
-    x: sin_x_2 * cos_y_2 * cos_z_2 + cos_x_2 * sin_y_2 * sin_z_2,
-    y: cos_x_2 * sin_y_2 * cos_z_2 + sin_x_2 * cos_y_2 * sin_z_2,
-    z: cos_x_2 * cos_y_2 * sin_z_2 + sin_x_2 * sin_y_2 * cos_z_2,
+///|
+pub fn Quaternion::normalize(self : Quaternion) -> Quaternion {
+  let len = self.length()
+  if len == 0.0 {
+    return Quaternion::id()
+  }
+  self.scale(1.0.to_float() / len)
+}
+
+///| normalize mutable
+pub fn Quaternion::normalize_mut(self : Quaternion) -> Unit {
+  let len = self.length()
+  if len == 0.0 {
+    self.w = 1.0
+    self.x = 0.0
+    self.y = 0.0
+    self.z = 0.0
+  } else {
+    self.scale_mut(1.0.to_float() / len)
   }
 }
