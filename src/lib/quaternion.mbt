@@ -199,6 +199,11 @@ pub fn Quaternion::to_array(self : Quaternion) -> Array[Float] {
   [self.w, self.x, self.y, self.z]
 }
 
+///| convert to xyzw, useful for Graphics
+pub fn Quaternion::to_xyzw(self : Quaternion) -> Array[Float] {
+  [self.x, self.y, self.z, self.w]
+}
+
 ///|
 pub(all) type! QuatError String
 
