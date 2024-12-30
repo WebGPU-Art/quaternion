@@ -234,3 +234,44 @@ test "Quaternion::op_div/basic" {
   )
   inspect!(result * b, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 }
+
+test "Quaternion::to_array/basic" {
+  let q = @lib.q(1.0, 2.0, 3.0, 4.0)
+  let result = q.to_wxyz()
+  inspect!(result, content="[1, 2, 3, 4]")
+  let result2 = q.to_xyzw()
+  inspect!(result2, content="[2, 3, 4, 1]")
+  let q2 = @lib.from_xyzw_array?([2.0, 3.0, 4.0, 1.0]).unwrap()
+  inspect!(q2, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
+  let q3 = @lib.from_wxyz?([1.0, 2.0, 3.0, 4.0]).unwrap()
+  inspect!(q3, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
+}
+
+test "Quaternion::to_array/fail" {
+  let result = @lib.from_wxyz?([1.0, 2.0, 3.0])
+  inspect!(result.is_err(), content="true")
+  let result2 = @lib.from_xyzw_array?([1.0, 2.0, 3.0])
+  inspect!(result2.is_err(), content="true")
+}
+
+test "Quaternion::normalize/basic" {
+  let q = @lib.q(1.0, 2.0, 3.0, 4.0)
+  let result = q.normalize()
+  /// use roughly_eq
+  inspect!(
+    result.roughly_eq(@lib.Quaternion::{
+      w: 0.18257418203353882,
+      x: 0.3651483657360077,
+      y: 0.5477225184440613,
+      z: 0.7302967319488525,
+    }),
+    content="true",
+  )
+  inspect!(result.length(), content="1")
+  let q2 = @lib.q(1.0, 2.0, 3.0, 4.0)
+  q2.normalize_mut?().unwrap()
+  inspect!(q2.length(), content="1")
+  let q3 = @lib.q(0.0, 0.0, 0.0, 0.0)
+  let ret = q3.normalize_mut?()
+  inspect!(ret.is_err(), content="true")
+}
