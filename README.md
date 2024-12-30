@@ -27,6 +27,12 @@ b1.scale(1.5);
 b1.square_length();
 b1.length();
 b1.inverse();
+
+a.to_array();
+a.to_xyzw()
+
+Quaternion::from_array([1.0, 2.0, 3.0, 4.0]);
+Quaternion::from_xyzw_array(1.0, 2.0, 3.0, 4.0);
 ```
 
 There are also mutable APIs:

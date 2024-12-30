@@ -1,4 +1,5 @@
 ///| Construct a quaternion representing the given euler angle rotations (in radians)
+/// Notice: this function is not well tested yet
 pub fn Quaternion::from_euler_angles(
   x : Float,
   y : Float,
