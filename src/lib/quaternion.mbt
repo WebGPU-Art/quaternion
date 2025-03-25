@@ -729,7 +729,7 @@ pub fn Quaternion::to_xyzw(self : Quaternion) -> Array[Float] {
 pub(all) type! QuatError String
 
 ///|
-pub fn Quaternion::from_wxyz(arr : Array[Float]) -> Quaternion!QuatError {
+pub fn from_wxyz(arr : Array[Float]) -> Quaternion!QuatError {
   if arr.length() != 4 {
     raise QuatError("Array must have 4 elements")
   }
@@ -737,7 +737,7 @@ pub fn Quaternion::from_wxyz(arr : Array[Float]) -> Quaternion!QuatError {
 }
 
 ///| from_xyzw_array
-pub fn Quaternion::from_xyzw_array(arr : Array[Float]) -> Quaternion!QuatError {
+pub fn from_xyzw_array(arr : Array[Float]) -> Quaternion!QuatError {
   if arr.length() != 4 {
     raise QuatError("Array must have 4 elements")
   }
