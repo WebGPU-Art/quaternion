@@ -461,7 +461,7 @@ pub fn Quaternion::roughly_eq(
 ///   inspect!(q1 + q2, content="Quaternion { w: 6.0, x: 8.0, y: 10.0, z: 12.0 }")
 /// }
 /// ```
-pub fn Quaternion::op_add(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Add for Quaternion with op_add(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w + other.w,
     x: self.x + other.x,
@@ -519,7 +519,7 @@ pub fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///   inspect!(result, content="Quaternion { w: 0.0, x: 1.0, y: 0.0, z: 0.0 }")
 /// }
 /// ```
-pub fn Quaternion::op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Mul for Quaternion with op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w * other.w - self.x * other.x - self.y * other.y - self.z * other.z,
     x: self.w * other.x + self.x * other.w + self.y * other.z - self.z * other.y,
@@ -594,7 +594,7 @@ pub fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///   inspect!(result, content="Quaternion { w: 0.5, x: 0.0, y: 0.0, z: 0.0 }")
 /// }
 /// ```
-pub fn Quaternion::op_div(self : Quaternion, b : Quaternion) -> Quaternion {
+pub impl Div for Quaternion with op_div(self : Quaternion, b : Quaternion) -> Quaternion {
   self.op_mul(b.inverse())
 }
 
@@ -619,7 +619,7 @@ pub fn Quaternion::op_div(self : Quaternion, b : Quaternion) -> Quaternion {
 ///   inspect!(result, content="Quaternion { w: 0.5, x: 1.0, y: 1.5, z: 2.0 }")
 /// }
 /// ```
-pub fn Quaternion::op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Sub for Quaternion with op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w - other.w,
     x: self.x - other.x,
