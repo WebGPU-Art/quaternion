@@ -1,0 +1,59 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tiye/quaternion/lib"
+
+// Values
+fn from_wxyz(Array[Float]) -> Quaternion raise QuatError
+
+fn from_xyzw_array(Array[Float]) -> Quaternion raise QuatError
+
+let max_value : Float
+
+fn q(Float, Float, Float, Float) -> Quaternion
+
+fn qi(Int, Int, Int, Int) -> Quaternion
+
+// Errors
+pub(all) suberror QuatError String
+
+// Types and methods
+pub(all) struct Quaternion {
+  mut w : Float
+  mut x : Float
+  mut y : Float
+  mut z : Float
+}
+fn Quaternion::conjugate(Self) -> Self
+fn Quaternion::conjugate_mut(Self) -> Unit
+fn Quaternion::dot(Self, Self) -> Float
+fn Quaternion::from_euler_angles(Float, Float, Float) -> Self
+fn Quaternion::id() -> Self
+fn Quaternion::inverse(Self) -> Self
+fn Quaternion::inverse_mut(Self) -> Unit
+fn Quaternion::length(Self) -> Float
+fn Quaternion::new(w? : Float, x? : Float, y? : Float, z? : Float) -> Self
+fn Quaternion::normalize(Self) -> Self
+fn Quaternion::normalize_mut(Self) -> Unit raise QuatError
+fn Quaternion::op_add_assign(Self, Self) -> Unit
+fn Quaternion::op_eq(Self, Self) -> Bool
+fn Quaternion::op_mul_assign(Self, Self) -> Unit
+fn Quaternion::op_neg(Self) -> Self
+fn Quaternion::op_sub_assign(Self, Self) -> Unit
+fn Quaternion::roughly_eq(Self, Self, epsilon? : Float) -> Bool
+fn Quaternion::scale(Self, Float) -> Self
+fn Quaternion::scale_mut(Self, Float) -> Unit
+fn Quaternion::square_length(Self) -> Float
+fn Quaternion::to_string(Self) -> String
+fn Quaternion::to_wxyz(Self) -> Array[Float]
+fn Quaternion::to_xyzw(Self) -> Array[Float]
+impl Add for Quaternion
+impl Default for Quaternion
+impl Div for Quaternion
+impl Eq for Quaternion
+impl Mul for Quaternion
+impl Show for Quaternion
+impl Sub for Quaternion
+
+// Type aliases
+
+// Traits
+
