@@ -7,6 +7,7 @@ pub(all) struct Quaternion {
 } derive(Eq)
 
 // Show
+
 ///|
 /// Converts a quaternion to its string representation in the format "Quaternion
 /// { w: <w>, x: <x>, y: <y>, z: <z> }".
@@ -145,7 +146,7 @@ pub fn Quaternion::new(
   w? : Float,
   x? : Float,
   y? : Float,
-  z? : Float
+  z? : Float,
 ) -> Quaternion {
   Quaternion::{
     w: w.or_default(),
@@ -436,7 +437,7 @@ pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
 pub fn Quaternion::roughly_eq(
   self : Quaternion,
   other : Quaternion,
-  epsilon? : Float
+  epsilon? : Float,
 ) -> Bool {
   (self - other).square_length() < epsilon.or(0.00000000001)
 }
@@ -726,10 +727,10 @@ pub fn Quaternion::to_xyzw(self : Quaternion) -> Array[Float] {
 }
 
 ///|
-pub(all) type! QuatError String
+pub(all) suberror QuatError String
 
 ///|
-pub fn from_wxyz(arr : Array[Float]) -> Quaternion!QuatError {
+pub fn from_wxyz(arr : Array[Float]) -> Quaternion raise QuatError {
   if arr.length() != 4 {
     raise QuatError("Array must have 4 elements")
   }
@@ -737,7 +738,7 @@ pub fn from_wxyz(arr : Array[Float]) -> Quaternion!QuatError {
 }
 
 ///| from_xyzw_array
-pub fn from_xyzw_array(arr : Array[Float]) -> Quaternion!QuatError {
+pub fn from_xyzw_array(arr : Array[Float]) -> Quaternion raise QuatError {
   if arr.length() != 4 {
     raise QuatError("Array must have 4 elements")
   }
@@ -754,7 +755,7 @@ pub fn Quaternion::normalize(self : Quaternion) -> Quaternion {
 }
 
 ///| normalize mutable
-pub fn Quaternion::normalize_mut(self : Quaternion) -> Unit!QuatError {
+pub fn Quaternion::normalize_mut(self : Quaternion) -> Unit raise QuatError {
   let len = self.length()
   if len == 0.0 {
     raise QuatError("Cannot normalize a zero-length quaternion")
