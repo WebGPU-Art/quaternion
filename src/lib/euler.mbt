@@ -3,7 +3,7 @@
 pub fn Quaternion::from_euler_angles(
   x : Float,
   y : Float,
-  z : Float
+  z : Float,
 ) -> Quaternion {
   let two : Float = 2.0
   let half_x = x / two
