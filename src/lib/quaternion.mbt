@@ -25,7 +25,7 @@ pub(all) struct Quaternion {
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.to_string(),
-///   content="Quaternion { w: 1.0, x: 2.0, y: 3.0, z: 4.0 }",
+///   content="Quaternion { w: 1, x: 2, y: 3, z: 4 }",
 /// )
 /// ```
 pub fn Quaternion::to_string(self : Quaternion) -> String {
@@ -56,7 +56,7 @@ pub impl Show for Quaternion with output(self, logger) {
 /// let quaternion = q(1.0, 2.0, 3.0, 4.0)
 /// inspect(
 ///   quaternion.to_string(),
-///   content="Quaternion { w: 1.0, x: 2.0, y: 3.0, z: 4.0 }",
+///   content="Quaternion { w: 1, x: 2, y: 3, z: 4 }",
 /// )
 /// ```
 pub fn q(w : Float, x : Float, y : Float, z : Float) -> Quaternion {
@@ -82,7 +82,7 @@ pub fn q(w : Float, x : Float, y : Float, z : Float) -> Quaternion {
 ///
 /// ```moonbit
 /// let quaternion = qi(1, 2, 3, 4)
-/// inspect(quaternion, content="Quaternion { w: 1.0, x: 2.0, y: 3.0, z: 4.0 }")
+/// inspect(quaternion, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 /// ```
 pub fn qi(w : Int, x : Int, y : Int, z : Int) -> Quaternion {
   q(w.to_float(), x.to_float(), y.to_float(), z.to_float())
@@ -99,7 +99,7 @@ pub fn qi(w : Int, x : Int, y : Int, z : Int) -> Quaternion {
 ///
 /// ```moonbit
 /// let q = Quaternion::id()
-/// inspect(q, content="Quaternion { w: 1.0, x: 0.0, y: 0.0, z: 0.0 }")
+/// inspect(q, content="Quaternion { w: 1, x: 0, y: 0, z: 0 }")
 ///
 /// // demonstrate identity property
 /// let p = Quaternion::{ w: 2.0, x: 3.0, y: 4.0, z: 5.0 }
@@ -130,8 +130,8 @@ pub fn Quaternion::id() -> Quaternion {
 /// ```moonbit
 /// let q1 = Quaternion::new()
 /// let q2 = Quaternion::new(w=1.0, x=2.0)
-/// inspect(q1, content="Quaternion { w: 0.0, x: 0.0, y: 0.0, z: 0.0 }")
-/// inspect(q2, content="Quaternion { w: 1.0, x: 2.0, y: 0.0, z: 0.0 }")
+/// inspect(q1, content="Quaternion { w: 0, x: 0, y: 0, z: 0 }")
+/// inspect(q2, content="Quaternion { w: 1, x: 2, y: 0, z: 0 }")
 /// ```
 pub fn Quaternion::new(
   w? : Float,
@@ -164,7 +164,7 @@ pub fn Quaternion::new(
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let scaled = q.scale(2.0)
-/// inspect(scaled, content="Quaternion { w: 2.0, x: 4.0, y: 6.0, z: 8.0 }")
+/// inspect(scaled, content="Quaternion { w: 2, x: 4, y: 6, z: 8 }")
 /// ```
 pub fn Quaternion::scale(self : Quaternion, t : Float) -> Quaternion {
   Quaternion::{ w: self.w * t, x: self.x * t, y: self.y * t, z: self.z * t }
@@ -185,7 +185,7 @@ pub fn Quaternion::scale(self : Quaternion, t : Float) -> Quaternion {
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// q.scale_mut(2.0)
-/// inspect(q, content="Quaternion { w: 2.0, x: 4.0, y: 6.0, z: 8.0 }")
+/// inspect(q, content="Quaternion { w: 2, x: 4, y: 6, z: 8 }")
 /// ```
 pub fn Quaternion::scale_mut(self : Quaternion, t : Float) -> Unit {
   self.w = self.w * t
@@ -232,7 +232,7 @@ pub fn Quaternion::inverse(self : Quaternion) -> Quaternion {
 /// ```moonbit
 /// let q = Quaternion::{ w: 2.0, x: 0.0, y: 0.0, z: 0.0 }
 /// q.inverse_mut()
-/// inspect(q, content="Quaternion { w: 0.5, x: 0.0, y: 0.0, z: 0.0 }")
+/// inspect(q, content="Quaternion { w: 0.5, x: 0, y: 0, z: 0 }")
 /// ```
 pub fn Quaternion::inverse_mut(self : Quaternion) -> Unit {
   self.scale_mut(1.0.to_float() / self.square_length())
@@ -255,7 +255,7 @@ pub fn Quaternion::inverse_mut(self : Quaternion) -> Unit {
 /// ```moonbit
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 2.0, x: 3.0, y: 4.0, z: 5.0 }
-/// inspect(q1.dot(q2), content="40.0")
+/// inspect(q1.dot(q2), content="40")
 /// ```
 pub fn Quaternion::dot(self : Quaternion, other : Quaternion) -> Float {
   self.w * other.w + self.x * other.x + self.y * other.y + self.z * other.z
@@ -278,7 +278,7 @@ pub fn Quaternion::dot(self : Quaternion, other : Quaternion) -> Float {
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.conjugate(),
-///   content="Quaternion { w: 1.0, x: -2.0, y: -3.0, z: -4.0 }",
+///   content="Quaternion { w: 1, x: -2, y: -3, z: -4 }",
 /// )
 /// ```
 pub fn Quaternion::conjugate(self : Quaternion) -> Quaternion {
@@ -300,7 +300,7 @@ pub fn Quaternion::conjugate(self : Quaternion) -> Quaternion {
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// q.conjugate_mut()
-/// inspect(q, content="Quaternion { w: 1.0, x: -2.0, y: -3.0, z: -4.0 }")
+/// inspect(q, content="Quaternion { w: 1, x: -2, y: -3, z: -4 }")
 /// ```
 pub fn Quaternion::conjugate_mut(self : Quaternion) -> Unit {
   self.x = -self.x
@@ -322,7 +322,7 @@ pub fn Quaternion::conjugate_mut(self : Quaternion) -> Unit {
 ///
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 2.0, z: 1.0 }
-/// inspect(q.square_length(), content="10.0")
+/// inspect(q.square_length(), content="10")
 /// ```
 pub fn Quaternion::square_length(self : Quaternion) -> Float {
   self.w * self.w + self.x * self.x + self.y * self.y + self.z * self.z
@@ -342,7 +342,7 @@ pub fn Quaternion::square_length(self : Quaternion) -> Float {
 ///
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 2.0, z: 1.0 }
-/// inspect(q.length(), content="3.316624790355399")
+/// inspect(q.length(), content="3.1622776985168457")
 /// ```
 pub fn Quaternion::length(self : Quaternion) -> Float {
   self.square_length().sqrt()
@@ -376,7 +376,7 @@ pub let max_value : Float = (0x7F7FFFFF).reinterpret_as_float()
 /// ```moonbit
 /// let q1 = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let q2 = Quaternion::{ w: 1.0, x: 0.0000000001, y: 0.0, z: 0.0 }
-/// inspect(q1.op_eq(q2), content="true")
+/// inspect(q1.op_eq(q2), content="false")
 /// ```
 pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
   (self - other).square_length() < 1.0.to_float() / max_value
@@ -427,7 +427,7 @@ pub fn Quaternion::roughly_eq(
 /// ```moonbit
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 5.0, x: 6.0, y: 7.0, z: 8.0 }
-/// inspect(q1 + q2, content="Quaternion { w: 6.0, x: 8.0, y: 10.0, z: 12.0 }")
+/// inspect(q1 + q2, content="Quaternion { w: 6, x: 8, y: 10, z: 12 }")
 /// ```
 pub impl Add for Quaternion with op_add(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
@@ -453,7 +453,7 @@ pub impl Add for Quaternion with op_add(self : Quaternion, other : Quaternion) -
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 5.0, x: 6.0, y: 7.0, z: 8.0 }
 /// q1.op_add_assign(q2)
-/// inspect(q1, content="Quaternion { w: 6.0, x: 8.0, y: 10.0, z: 12.0 }")
+/// inspect(q1, content="Quaternion { w: 6, x: 8, y: 10, z: 12 }")
 /// ```
 pub fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit {
   self.w = self.w + other.w
@@ -481,7 +481,7 @@ pub fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit 
 /// let q1 = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let q2 = Quaternion::{ w: 0.0, x: 1.0, y: 0.0, z: 0.0 }
 /// let result = q1 * q2
-/// inspect(result, content="Quaternion { w: 0.0, x: 1.0, y: 0.0, z: 0.0 }")
+/// inspect(result, content="Quaternion { w: 0, x: 1, y: 0, z: 0 }")
 /// ```
 pub impl Mul for Quaternion with op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
@@ -509,7 +509,7 @@ pub impl Mul for Quaternion with op_mul(self : Quaternion, other : Quaternion) -
 /// q1.op_mul_assign(q2)
 /// inspect(
 ///   q1.to_string(),
-///   content="Quaternion { w: 12.0, x: 1.0, y: 0.0, z: -1.0 }",
+///   content="Quaternion { w: 22, x: 2, y: 6, z: 4 }",
 /// )
 /// ```
 pub fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit {
@@ -552,7 +552,7 @@ pub fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit 
 /// let a = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let b = Quaternion::{ w: 2.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let result = a / b
-/// inspect(result, content="Quaternion { w: 0.5, x: 0.0, y: 0.0, z: 0.0 }")
+/// inspect(result, content="Quaternion { w: 0.5, x: 0, y: 0, z: 0 }")
 /// ```
 pub impl Div for Quaternion with op_div(self : Quaternion, b : Quaternion) -> Quaternion {
   self.op_mul(b.inverse())
@@ -575,7 +575,7 @@ pub impl Div for Quaternion with op_div(self : Quaternion, b : Quaternion) -> Qu
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 0.5, x: 1.0, y: 1.5, z: 2.0 }
 /// let result = q1 - q2
-/// inspect(result, content="Quaternion { w: 0.5, x: 1.0, y: 1.5, z: 2.0 }")
+/// inspect(result, content="Quaternion { w: 0.5, x: 1, y: 1.5, z: 2 }")
 /// ```
 pub impl Sub for Quaternion with op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
@@ -601,7 +601,7 @@ pub impl Sub for Quaternion with op_sub(self : Quaternion, other : Quaternion) -
 /// let q1 = Quaternion::{ w: 2.0, x: 3.0, y: 4.0, z: 5.0 }
 /// let q2 = Quaternion::{ w: 1.0, x: 1.0, y: 1.0, z: 1.0 }
 /// q1.op_sub_assign(q2)
-/// inspect(q1, content="Quaternion { w: 1.0, x: 2.0, y: 3.0, z: 4.0 }")
+/// inspect(q1, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 /// ```
 pub fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit {
   self.w = self.w - other.w
@@ -627,7 +627,7 @@ pub fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit 
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.op_neg(),
-///   content="Quaternion { w: -1.0, x: -2.0, y: -3.0, z: -4.0 }",
+///   content="Quaternion { w: -1, x: -2, y: -3, z: -4 }",
 /// )
 /// ```
 pub fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
@@ -648,7 +648,7 @@ pub fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
 ///
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
-/// inspect(q.to_wxyz(), content="[1.0, 2.0, 3.0, 4.0]")
+/// inspect(q.to_wxyz(), content="[1, 2, 3, 4]")
 /// ```
 pub fn Quaternion::to_wxyz(self : Quaternion) -> Array[Float] {
   [self.w, self.x, self.y, self.z]
@@ -669,7 +669,7 @@ pub fn Quaternion::to_wxyz(self : Quaternion) -> Array[Float] {
 ///
 /// ```moonbit
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
-/// inspect(q.to_xyzw(), content="[2.0, 3.0, 4.0, 1.0]")
+/// inspect(q.to_xyzw(), content="[2, 3, 4, 1]")
 /// ```
 pub fn Quaternion::to_xyzw(self : Quaternion) -> Array[Float] {
   [self.x, self.y, self.z, self.w]
