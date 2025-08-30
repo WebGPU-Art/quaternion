@@ -1,4 +1,5 @@
-///| Quaternion {w, x, y, z}
+///|
+/// Quaternion {w, x, y, z}
 pub(all) struct Quaternion {
   mut w : Float
   mut x : Float
@@ -685,7 +686,8 @@ pub fn from_wxyz(arr : Array[Float]) -> Quaternion raise QuatError {
   Quaternion::{ w: arr[0], x: arr[1], y: arr[2], z: arr[3] }
 }
 
-///| from_xyzw_array
+///|
+/// from_xyzw_array
 pub fn from_xyzw_array(arr : Array[Float]) -> Quaternion raise QuatError {
   if arr.length() != 4 {
     raise QuatError("Array must have 4 elements")
@@ -702,7 +704,8 @@ pub fn Quaternion::normalize(self : Quaternion) -> Quaternion {
   self.scale(1.0.to_float() / len)
 }
 
-///| normalize mutable
+///|
+/// normalize mutable
 pub fn Quaternion::normalize_mut(self : Quaternion) -> Unit raise QuatError {
   let len = self.length()
   if len == 0.0 {
