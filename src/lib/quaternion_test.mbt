@@ -6,11 +6,9 @@ test "q" {
 
 ///|
 test "q/nan" {
-  let q1 = @lib.q(@float.not_a_number, 0.0, 0.0, 0.0)
-  inspect(
-    q1,
-    content="Quaternion { w: \{@double.not_a_number.to_float()}, x: 0, y: 0, z: 0 }",
-  )
+  let nan = Float::reinterpret_from_int(0x7FC00000)
+  let q1 = @lib.q(nan, 0.0, 0.0, 0.0)
+  inspect(q1, content="Quaternion { w: NaN, x: 0, y: 0, z: 0 }")
 }
 
 ///|
@@ -24,7 +22,7 @@ test "Quaternion::new/default_arguments" {
 
 ///|
 test "Quaternion::new/partial_defaults" {
-  let q = @lib.Quaternion::new(w=1.0.to_float())
+  let q = @lib.Quaternion::new(w=1.0)
   inspect(q.w, content="1")
   inspect(q.x, content="0")
   inspect(q.y, content="0")
@@ -33,12 +31,7 @@ test "Quaternion::new/partial_defaults" {
 
 ///|
 test "Quaternion::new/all_arguments" {
-  let q = @lib.Quaternion::new(
-    w=1.0.to_float(),
-    x=2.0.to_float(),
-    y=3.0.to_float(),
-    z=4.0.to_float(),
-  )
+  let q = @lib.Quaternion::new(w=1.0, x=2.0, y=3.0, z=4.0)
   inspect(q.w, content="1")
   inspect(q.x, content="2")
   inspect(q.y, content="3")
@@ -48,7 +41,7 @@ test "Quaternion::new/all_arguments" {
 ///|
 test "Quaternion::scale/large_scalar" {
   let q = @lib.Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
-  let t = 1.0e+10.to_float() // Use Float literal
+  let t : Float = 1.0e+10
   let result = q.scale(t)
   inspect(
     result,
@@ -214,7 +207,7 @@ test "Quaternion::op_add/identity" {
 
 ///|
 test "Quaternion::op_add/large_values" {
-  let large = @float.max_value
+  let large = Float::reinterpret_from_int(0x7F7FFFFF)
   let q1 = @lib.q(large, large, large, large)
   let q2 = @lib.q(large, large, large, large)
   let result = q1 + q2
@@ -271,18 +264,18 @@ test "Quaternion::to_array/basic" {
   inspect(result, content="[1, 2, 3, 4]")
   let result2 = q.to_xyzw()
   inspect(result2, content="[2, 3, 4, 1]")
-  let q2 = (try? @lib.from_xyzw_array([2.0, 3.0, 4.0, 1.0])).unwrap()
+  let q2 = try! @lib.from_xyzw_array([2.0, 3.0, 4.0, 1.0])
   inspect(q2, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
-  let q3 = (try? @lib.from_wxyz([1.0, 2.0, 3.0, 4.0])).unwrap()
+  let q3 = try! @lib.from_wxyz([1.0, 2.0, 3.0, 4.0])
   inspect(q3, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 }
 
 ///|
 test "Quaternion::to_array/fail" {
   let result = try? @lib.from_wxyz([1.0, 2.0, 3.0])
-  inspect(result.is_err(), content="true")
+  inspect(result is Err(_), content="true")
   let result2 = try? @lib.from_xyzw_array([1.0, 2.0, 3.0])
-  inspect(result2.is_err(), content="true")
+  inspect(result2 is Err(_), content="true")
 }
 
 ///|
@@ -301,9 +294,9 @@ test "Quaternion::normalize/basic" {
   )
   inspect(result.length(), content="1")
   let q2 = @lib.q(1.0, 2.0, 3.0, 4.0)
-  (try? q2.normalize_mut()).unwrap()
+  try! q2.normalize_mut()
   inspect(q2.length(), content="1")
   let q3 = @lib.q(0.0, 0.0, 0.0, 0.0)
   let ret = try? q3.normalize_mut()
-  inspect(ret.is_err(), content="true")
+  inspect(ret is Err(_), content="true")
 }
