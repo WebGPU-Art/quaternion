@@ -6,7 +6,7 @@ MoonBit does not have `num_traits::Float` so this library is only using `Float`(
 moon add tiye/quaternion
 ```
 
-Find docs on [Mooncakes](https://mooncakes.io/docs/#/tiye/quaternion/lib/members).
+Find docs on [Mooncakes](https://mooncakes.io/docs/tiye/quaternion/).
 
 ```moonbit
 let a = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 };
