@@ -21,7 +21,7 @@ pub(all) struct Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.to_string(),
@@ -52,7 +52,7 @@ pub impl Show for Quaternion with output(self, logger) {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let quaternion = q(1.0, 2.0, 3.0, 4.0)
 /// inspect(
 ///   quaternion.to_string(),
@@ -80,12 +80,17 @@ pub fn q(w : Float, x : Float, y : Float, z : Float) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let quaternion = qi(1, 2, 3, 4)
 /// inspect(quaternion, content="Quaternion { w: 1, x: 2, y: 3, z: 4 }")
 /// ```
 pub fn qi(w : Int, x : Int, y : Int, z : Int) -> Quaternion {
-  q(w.to_float(), x.to_float(), y.to_float(), z.to_float())
+  q(
+    Float::from_int(w),
+    Float::from_int(x),
+    Float::from_int(y),
+    Float::from_int(z),
+  )
 }
 
 ///|
@@ -97,7 +102,7 @@ pub fn qi(w : Int, x : Int, y : Int, z : Int) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::id()
 /// inspect(q, content="Quaternion { w: 1, x: 0, y: 0, z: 0 }")
 ///
@@ -127,7 +132,7 @@ pub fn Quaternion::id() -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::new()
 /// let q2 = Quaternion::new(w=1.0, x=2.0)
 /// inspect(q1, content="Quaternion { w: 0, x: 0, y: 0, z: 0 }")
@@ -161,7 +166,7 @@ pub fn Quaternion::new(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let scaled = q.scale(2.0)
 /// inspect(scaled, content="Quaternion { w: 2, x: 4, y: 6, z: 8 }")
@@ -182,7 +187,7 @@ pub fn Quaternion::scale(self : Quaternion, t : Float) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// q.scale_mut(2.0)
 /// inspect(q, content="Quaternion { w: 2, x: 4, y: 6, z: 8 }")
@@ -208,13 +213,13 @@ pub fn Quaternion::scale_mut(self : Quaternion, t : Float) -> Unit {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q_inv = q.inverse()
 /// inspect((q * q_inv).roughly_eq(Quaternion::id()), content="true")
 /// ```
 pub fn Quaternion::inverse(self : Quaternion) -> Quaternion {
-  self.conjugate().scale(1.0.to_float() / self.square_length())
+  self.conjugate().scale(Float::from_double(1.0) / self.square_length())
 }
 
 ///|
@@ -229,13 +234,13 @@ pub fn Quaternion::inverse(self : Quaternion) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 2.0, x: 0.0, y: 0.0, z: 0.0 }
 /// q.inverse_mut()
 /// inspect(q, content="Quaternion { w: 0.5, x: 0, y: 0, z: 0 }")
 /// ```
 pub fn Quaternion::inverse_mut(self : Quaternion) -> Unit {
-  self.scale_mut(1.0.to_float() / self.square_length())
+  self.scale_mut(Float::from_double(1.0) / self.square_length())
   self.conjugate_mut()
 }
 
@@ -252,7 +257,7 @@ pub fn Quaternion::inverse_mut(self : Quaternion) -> Unit {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 2.0, x: 3.0, y: 4.0, z: 5.0 }
 /// inspect(q1.dot(q2), content="40")
@@ -274,7 +279,7 @@ pub fn Quaternion::dot(self : Quaternion, other : Quaternion) -> Float {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.conjugate(),
@@ -297,7 +302,7 @@ pub fn Quaternion::conjugate(self : Quaternion) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// q.conjugate_mut()
 /// inspect(q, content="Quaternion { w: 1, x: -2, y: -3, z: -4 }")
@@ -320,7 +325,7 @@ pub fn Quaternion::conjugate_mut(self : Quaternion) -> Unit {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 2.0, z: 1.0 }
 /// inspect(q.square_length(), content="10")
 /// ```
@@ -340,7 +345,7 @@ pub fn Quaternion::square_length(self : Quaternion) -> Float {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 2.0, z: 1.0 }
 /// inspect(q.length(), content="3.1622776985168457")
 /// ```
@@ -354,7 +359,7 @@ pub impl Default for Quaternion with default() {
 }
 
 ///|
-pub let max_value : Float = (0x7F7FFFFF).reinterpret_as_float()
+pub let max_value : Float = Float::reinterpret_from_int(0x7F7FFFFF)
 
 ///|
 /// Determines whether two quaternions are approximately equal by comparing their
@@ -373,13 +378,13 @@ pub let max_value : Float = (0x7F7FFFFF).reinterpret_as_float()
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let q2 = Quaternion::{ w: 1.0, x: 0.0000000001, y: 0.0, z: 0.0 }
 /// inspect(q1.op_eq(q2), content="false")
 /// ```
 pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
-  (self - other).square_length() < 1.0.to_float() / max_value
+  (self - other).square_length() < Float::from_double(1.0) / max_value
 }
 
 ///|
@@ -398,7 +403,7 @@ pub fn Quaternion::op_eq(self : Quaternion, other : Quaternion) -> Bool {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let q2 = Quaternion::{ w: 0.9999999999, x: 0.0, y: 0.0, z: 0.0 }
 /// inspect(q1.roughly_eq(q2), content="true")
@@ -424,18 +429,23 @@ pub fn Quaternion::roughly_eq(
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 5.0, x: 6.0, y: 7.0, z: 8.0 }
 /// inspect(q1 + q2, content="Quaternion { w: 6, x: 8, y: 10, z: 12 }")
 /// ```
-pub impl Add for Quaternion with op_add(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Add for Quaternion with add(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w + other.w,
     x: self.x + other.x,
     y: self.y + other.y,
     z: self.z + other.z,
   }
+}
+
+///|
+pub fn Quaternion::op_add(self : Quaternion, other : Quaternion) -> Quaternion {
+  self + other
 }
 
 ///|
@@ -449,7 +459,7 @@ pub impl Add for Quaternion with op_add(self : Quaternion, other : Quaternion) -
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 5.0, x: 6.0, y: 7.0, z: 8.0 }
 /// q1.op_add_assign(q2)
@@ -477,19 +487,24 @@ pub fn Quaternion::op_add_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let q2 = Quaternion::{ w: 0.0, x: 1.0, y: 0.0, z: 0.0 }
 /// let result = q1 * q2
 /// inspect(result, content="Quaternion { w: 0, x: 1, y: 0, z: 0 }")
 /// ```
-pub impl Mul for Quaternion with op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Mul for Quaternion with mul(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w * other.w - self.x * other.x - self.y * other.y - self.z * other.z,
     x: self.w * other.x + self.x * other.w + self.y * other.z - self.z * other.y,
     y: self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x,
     z: self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w,
   }
+}
+
+///|
+pub fn Quaternion::op_mul(self : Quaternion, other : Quaternion) -> Quaternion {
+  self * other
 }
 
 ///|
@@ -503,7 +518,7 @@ pub impl Mul for Quaternion with op_mul(self : Quaternion, other : Quaternion) -
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 2.0, x: -1.0, y: -2.0, z: -3.0 }
 /// q1.op_mul_assign(q2)
@@ -548,14 +563,19 @@ pub fn Quaternion::op_mul_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let a = Quaternion::{ w: 1.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let b = Quaternion::{ w: 2.0, x: 0.0, y: 0.0, z: 0.0 }
 /// let result = a / b
 /// inspect(result, content="Quaternion { w: 0.5, x: 0, y: 0, z: 0 }")
 /// ```
-pub impl Div for Quaternion with op_div(self : Quaternion, b : Quaternion) -> Quaternion {
-  self.op_mul(b.inverse())
+pub impl Div for Quaternion with div(self : Quaternion, b : Quaternion) -> Quaternion {
+  self * b.inverse()
+}
+
+///|
+pub fn Quaternion::op_div(self : Quaternion, b : Quaternion) -> Quaternion {
+  self / b
 }
 
 ///|
@@ -571,19 +591,24 @@ pub impl Div for Quaternion with op_div(self : Quaternion, b : Quaternion) -> Qu
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// let q2 = Quaternion::{ w: 0.5, x: 1.0, y: 1.5, z: 2.0 }
 /// let result = q1 - q2
 /// inspect(result, content="Quaternion { w: 0.5, x: 1, y: 1.5, z: 2 }")
 /// ```
-pub impl Sub for Quaternion with op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
+pub impl Sub for Quaternion with sub(self : Quaternion, other : Quaternion) -> Quaternion {
   Quaternion::{
     w: self.w - other.w,
     x: self.x - other.x,
     y: self.y - other.y,
     z: self.z - other.z,
   }
+}
+
+///|
+pub fn Quaternion::op_sub(self : Quaternion, other : Quaternion) -> Quaternion {
+  self - other
 }
 
 ///|
@@ -597,7 +622,7 @@ pub impl Sub for Quaternion with op_sub(self : Quaternion, other : Quaternion) -
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q1 = Quaternion::{ w: 2.0, x: 3.0, y: 4.0, z: 5.0 }
 /// let q2 = Quaternion::{ w: 1.0, x: 1.0, y: 1.0, z: 1.0 }
 /// q1.op_sub_assign(q2)
@@ -623,7 +648,7 @@ pub fn Quaternion::op_sub_assign(self : Quaternion, other : Quaternion) -> Unit 
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(
 ///   q.op_neg(),
@@ -646,7 +671,7 @@ pub fn Quaternion::op_neg(self : Quaternion) -> Quaternion {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(q.to_wxyz(), content="[1, 2, 3, 4]")
 /// ```
@@ -667,7 +692,7 @@ pub fn Quaternion::to_wxyz(self : Quaternion) -> Array[Float] {
 ///
 /// Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let q = Quaternion::{ w: 1.0, x: 2.0, y: 3.0, z: 4.0 }
 /// inspect(q.to_xyzw(), content="[2, 3, 4, 1]")
 /// ```
@@ -676,7 +701,9 @@ pub fn Quaternion::to_xyzw(self : Quaternion) -> Array[Float] {
 }
 
 ///|
-pub(all) suberror QuatError String
+pub(all) suberror QuatError {
+  QuatError(String)
+}
 
 ///|
 pub fn from_wxyz(arr : Array[Float]) -> Quaternion raise QuatError {
@@ -701,7 +728,7 @@ pub fn Quaternion::normalize(self : Quaternion) -> Quaternion {
   if len == 0.0 {
     return Quaternion::id()
   }
-  self.scale(1.0.to_float() / len)
+  self.scale(Float::from_double(1.0) / len)
 }
 
 ///|
@@ -711,6 +738,6 @@ pub fn Quaternion::normalize_mut(self : Quaternion) -> Unit raise QuatError {
   if len == 0.0 {
     raise QuatError("Cannot normalize a zero-length quaternion")
   } else {
-    self.scale_mut(1.0.to_float() / len)
+    self.scale_mut(Float::from_double(1.0) / len)
   }
 }

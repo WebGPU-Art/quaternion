@@ -10,12 +10,12 @@ pub fn Quaternion::from_euler_angles(
   let half_x = x / two
   let half_y = y / two
   let half_z = z / two
-  let cos_x_2 = @math.cos(half_x.to_double()).to_float()
-  let cos_y_2 = @math.cos(half_y.to_double()).to_float()
-  let cos_z_2 = @math.cos(half_z.to_double()).to_float()
-  let sin_x_2 = @math.sin(half_x.to_double()).to_float()
-  let sin_y_2 = @math.sin(half_y.to_double()).to_float()
-  let sin_z_2 = @math.sin(half_z.to_double()).to_float()
+  let cos_x_2 = Float::from_double(@math.cos(half_x.to_double()))
+  let cos_y_2 = Float::from_double(@math.cos(half_y.to_double()))
+  let cos_z_2 = Float::from_double(@math.cos(half_z.to_double()))
+  let sin_x_2 = Float::from_double(@math.sin(half_x.to_double()))
+  let sin_y_2 = Float::from_double(@math.sin(half_y.to_double()))
+  let sin_z_2 = Float::from_double(@math.sin(half_z.to_double()))
   Quaternion::{
     w: cos_x_2 * cos_y_2 * cos_z_2 + sin_x_2 * sin_y_2 * sin_z_2,
     x: sin_x_2 * cos_y_2 * cos_z_2 + cos_x_2 * sin_y_2 * sin_z_2,
